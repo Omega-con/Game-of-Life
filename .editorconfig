@@ -1,0 +1,11 @@
+is_global = true
+root = true
+
+; [*.cs]
+dotnet_diagnostic.IDE0090.severity = none
+dotnet_diagnostic.CA1024.severity = none
+dotnet_diagnostic.CA1303.severity = none
+dotnet_diagnostic.CA1623.severity = none
+dotnet_diagnostic.CA1852.severity = none
+dotnet_diagnostic.CA1515.severity = none
+dotnet_diagnostic.SA1623.severity = none

@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "dotnet: build",
+            "program": "${workspaceFolder}/src/Program/bin/Debug/net10.0/Program.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Program",
+            "console": "externalTerminal",
+            "stopAtEntry": false,
+            "justMyCode": true
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        }
+    ]
+}

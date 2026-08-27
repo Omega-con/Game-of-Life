@@ -1,0 +1,63 @@
+name: Build, Test & Generate Docs
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-test-generate-docs:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - .
+          # - v1
+          # - v2
+          # - v3
+          # - v4
+          # - v5
+          # - v6
+          # - v7
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Install Doxygen
+        run: |
+          wget https://github.com/doxygen/doxygen/releases/download/Release_1_17_0/doxygen-1.17.0.linux.bin.tar.gz
+          tar -xzf doxygen-1.17.0.linux.bin.tar.gz
+          sudo cp doxygen-1.17.0/bin/doxygen /usr/local/bin/
+
+      - name: Install Graphviz
+        run: |
+          wget https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/15.0.0/ubuntu_24.04_graphviz-15.0.0-cmake.deb
+          sudo dpkg -i ubuntu_24.04_graphviz-15.0.0-cmake.deb
+
+      - name: Installing dependencies...
+        working-directory: ${{ matrix.project }}
+        run: dotnet restore
+
+      - name: Building...
+        working-directory: ${{ matrix.project }}
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Running test...
+        working-directory: ${{ matrix.project }}
+        run: dotnet test --configuration Release --no-build
+
+      - name: Generating docs...
+        working-directory: ${{ matrix.project }}/docs
+        run: doxygen Doxyfile
+        continue-on-error: false
